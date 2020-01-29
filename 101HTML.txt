@@ -1,0 +1,435 @@
+
+#html（标记语言）
+	1.标签
+		1.标签分类
+			1.块级标签
+			2.内联标签
+		2.常用标签
+			1.a table p h1~h6 div span ul ol dl
+					
+		3.from标签(一般method=post)：
+			需要有name和value对应键和值
+			需要有个submit提交按钮
+			1.input type
+				1.text       
+				2.passwrod
+				3.radio    (单选)
+				4.checkbox (多选)
+				5.data,datatime (时间)		
+				6.submit	    (提交按钮)
+				7.button    (空按钮)
+				8.reset     (重置按钮)
+				9.file      (上传文件)(method="post" enctype="multipart/form-data")
+				10.hidden   (隐藏选框)
+				11.label    (和input标签绑定使用的label)
+				
+			2.select
+				加一个multiple属性变为多选
+				select>option(分组的下拉框 select>optgroup label="">option)
+				
+			3.textarea      (区域文本框)
+
+#css:
+	1.选择器
+		1.基本选择器
+			元素 id 类 通用
+		2.组合选择器
+			后代(空格) 儿子 毗邻 弟弟
+		3.属性(input[type="text"])
+		4.分组和嵌套	
+		5.伪类和伪元素
+			1.伪类：
+				1. :link    (标签没有被点击过)
+				2. :visited(标签被点击过)
+				3. :hover   (感知鼠标移动到标签上)*****
+				4. :active   (在标签上左键选中不放时)
+				5. :focus (input标签获取光标焦点)
+			2.伪元素：
+				1. ：first-letter (给首字母设置特殊样式)
+				2. ：before  (之前插入)
+				3. : after   (之后插入)
+		ps:选择器的优先级
+			1.选择器相同：就近原则
+			2.权重的计算(内联1000>id100>类10>元素1)
+	
+	2.css属性：
+		1.字体
+			1.font-family  （字体属性）
+			2.font-size     （字体大小）
+			3.font-weight	（字体粗细）
+		2.文本
+			1.text-align    (对齐)*****
+			2.text-decoration  (装饰)去除a标签的下划线（：none）
+			3.text-indent   (首行缩进)
+		3.背景属性
+			1.background-color (背景颜色)
+			2.backgroud-image  (背景图片) (url(存放图片路径)no-repeat 50% 50%（图片居中）)
+		4.color
+			1.red
+			2.#ff0000
+			3.rgb(255,0,0)
+			4.rgba(255,0,0,0.5) 最后一位是透明度取值为0-1
+		5.边框属性 border
+			1.border-width (边框宽度)
+			2.border-style (边框样式)
+			3.border-color (边框颜色)
+			简写：border: 1px solid red;
+		6.css盒子模型
+			1.content(内容)
+			2.padding(内填充)调整内容和边框距离时使用
+			3.border (边框)
+			4.margin(外边距)多用于调整标签之间的距离（注意两个挨着的标签margin取最大值）
+			注意：习惯去看浏览器console中的盒子模型
+		7.display(标签的展示形式)
+			1.inline (行类标签)
+			2.block(块级标签)菜单里的a标签可以设置成block(就可以在空白的地方进入连接)
+			3.inline-block(两种标签的特点都有)
+			4.none (不让标签显示，不占位)
+		8.float(浮动)
+			1.多用于实现布局效果
+				1.顶部的导航条
+				2.页面的左右分栏
+			2.float
+				1.任何标签都可以浮动，浮动之后都会变成块级标签（就可以设置长和宽）
+			3.float 取值：
+				1.left
+				2.right
+				3.none
+		9.clear 清除浮动-->清除浮动的副作用(内容飞出,父标签撑不起来)
+			1.结合伪元素实现
+				.clearfix:after{
+					content:"",
+					display:"block",
+					clear: both;
+				}
+			2.clear取值：
+				1.left
+				2.right
+				3.both
+		10.overflow(溢出)
+			1.标签内容放不下(溢出)
+			2.取值：
+				1.hidden --> 超出的隐藏
+				2.scroll --> 出现滚动条
+				3.auto   --> 自动的滚动条
+				4.scroll-x
+				5.scroll-y
+			3.圆形头像的例子：
+				1.overflow:hiddenn
+				2.border-radius: 50%
+		11.定位 position
+			1.static(默认)
+			2.relative(相对定位-->相对于原来的位置)
+			3.absolute(绝对定位-->相对于定位过的最近父标签)
+			4.fixed(固定 --> 返回顶部按钮示例)	
+		
+			补充：
+				脱离文档流的3种方式
+					1.float
+					2.absolute
+					3.fixed
+		12.opacity(透明度)
+			1.取值范围0-1（子标签也会生效）
+			2.和rgba()的区 别：
+				1.rgba()只改变背景颜色的透明度
+				2.opacity 改变元素\子元素的透明效果	
+		13.z-index
+			1.数值越大，越靠近你
+			2.只能作用于定位过的标签
+			补充：自定义的模态框
+		
+		
+#JavaScript(编程语言)		
+	--js基础语法
+	--BOM(js操作浏览器)
+	--DOM(js操作文档)
+	
+	1.js基础语法	
+		1.变量 
+			1.var 变量名; var 变量名 =值
+			2.变量的命名 字母 数字 下划线和$组成
+			3.推荐使用驼峰
+		2.数据类型
+			1.数字: Number ；NaN   (不是一个数字)
+			2.字符串: string
+			3.布尔: boolean
+			4.数组: Array   (类似与python列表)
+			5.null
+			6.undefined
+		
+		3.条件判断
+			1.if else
+			2.if; else if;else;
+			3.switch (值){
+				case 1:
+				console.log(...);
+				break;
+				case 2:
+				...
+				default:
+				console.log(上面的case都不满足就执行这一句);
+			}
+		4.循环
+			1.for循环
+				for(var i=0;i<值;i++)
+			2.while循环
+				var i=0
+				while (i<5){
+					console.log(i);
+					i++
+				}
+		5.运算符
+			1.算术运算符
+				+ - * / % ++ --
+			2.比较运算符
+				注意!强等于 ===  !==
+			3.逻辑运算符
+				||(或) &&(与) !(非)
+			4.赋值运算符
+				= += -= /= *= 
+	
+	
+	
+	
+	
+	1.BOM
+		1.location
+			1.location.href   -->获取当前的url
+			2.location.href="http://www.baidu.com" -->跳转到指定网页
+			3.location.reload()  -->重新加载当前页面
+		
+		2.alert('hello') --> 警告弹窗
+		3.定时
+			1.setTimeout和clearTimeout --> 多少毫秒之后做什么事
+			2.setInterval和clearInterval --> 每隔多少毫秒之后做什么事
+		
+	
+	
+	2.DOM
+		1.DOM树的概念
+		2.JS通过DOM操作HTML
+			1.改标签(标签内容)
+			2.改标签的属性
+			3.改样式
+			4.事件相关
+		3.操作标签 
+			1.基本查找
+				1.根据ID找标签(有且只有一个)
+					document.getElementById('ID值')
+				2.根据class名字查找(找到的可以是多个)
+					document.getElementsByClassName('class值')
+				3.根据标签名找(找到的可以是多个)
+					document.getElementsTagname('标签名')
+			2.间接查找
+				1.找父标签
+					document.parentElement
+				2.找所有子标签
+					document.children
+				3.第一个子标签
+					firstElementChild
+				4.最后一个子标签
+					lastElementChild
+				5.上一个兄弟标签
+					previousElementSibling
+				6.下一个兄弟标签
+					netElementSibling
+			2.创建标签(也叫创建节点) ***********
+				document.createElement('标签名')
+			3.添加标签
+				1.在内部的最后添加
+					父标签.appendChild('标签名')
+				2.在内部的某个标签的前面插入
+					父标签.insertBefore(要插入的新标签，哪个标签之前)
+			4.删除标签
+				1.从父标签里面删除指定的标签
+					父标签.removeChild(指定的标签)	
+			5.替换
+				1.在父标签里面用新创建的标签替换指定标签
+					父标签.replaceChild(新创建的标签,指定的标签)
+					
+		4.操作标签的属性
+			1.内置属性
+				.属性名='属性值'
+				1.a标签.href || img标签.src
+				2.a标签.href='htttp://www.sogo.com' || img标签.src='... '
+			2.自定义的属性只能用:
+				.setAttribute('s9','hao')  -->设置属性
+				.getAttribute('s9')		   -->获取属性的值
+				.removeAttribute('s9')	   -->删除指定的属性
+		5.文本操作 ************
+			1.设置文本内容
+				.innerText=''   --> 标签(子标签)的文本内容
+			2.设置标签内容
+				.innerHTML="<p>我是p标签</p>"  -->全部(子标签和子标签的文本内容)
+		6.获取值
+			1.input标签.value()
+			2.select标签.value()
+			3.textarea标签.value()	
+		7.操作标签的样式
+			1.通过class名去改变样式
+				1.获取标签所有样式类
+					1. .className       -->得到的是字符串
+					2. .classList       -->得到的是数组
+				2.通过classList操作样式
+					1. .classList.contains('c1') -->判断包不包含指定的样式类
+					2. .classList.add('样式类')  -->添加指定样式类
+					3. .classList.remove('样式类') -->删除指定的样式类
+					4. .classList.toggle('样式类')  -->有就删除，没有就添加
+			2.通过.style直接修改css属性
+				1.CSS属性带中横线的
+					background-color: red;
+					.style.backgroudColor= 'red';(注意加引号)
+				2.CSS中不带中横线的
+					color: red;
+					.style.color='red';(注意加引号)
+					
+		7.事件
+			0.注意：
+				 1.涉及到DOM操作的JS代码要放在body标签内部的最下面!!!
+				
+			1.常用事件
+				 1.onclick   --> 单击事件
+				 2.ondbclick --> 双击事件
+				
+				 3.onfocus   --> 获得焦点
+				 4.onblur    --> 失去焦点
+				
+				 5.onchange  --> select值的改变
+			2.绑定事件的方式
+				 1.在标签里直接写属性(onclick=foo()) 
+				 2.通过JS给标签绑定事件
+			3.this --> 代表的是触发事件的当前标签
+	
+	
+	3.jQuery (非常重要)
+		1.为什么学jQuery?  
+			 做同样的事情 jQuery 写起来极其简练   （write less, do more）
+		2.jQuery是什么?
+			 jQuery相当与Python的第三方模块
+			 原生的JS DOM操作是基础
+		3.jQuery学习内容
+			 1.改标签(标签内容)
+			 2.改标签的属性
+			 3.改样式
+			 4.事件相关
+		
+		
+		1.选择器
+			1.基本选择器
+				 1.id          	-->$("#")
+				 2.标签名		-->$("p")
+				 3.class名		-->$(".")
+				 4.通用的		-->$("*")
+				 5.组合			-->$(".c1,div,a")
+			
+			2.层级选择器
+				 1.子子孙孙		-->$("x y")
+				 2.儿子选择器	-->$("x>y")
+				 3.弟弟选择器	-->$("x~y")
+				 4.毗邻选择器	-->$("label+input")
+		2.筛选器
+			1.基本筛选器
+				1. :first
+				2. :last
+				3. :eq() 	-->从0开始
+				4. :even	-->偶数
+				5. :odd		-->奇数
+				6. :gt		-->大于
+			 	7. :lt		-->小于
+				
+				8. :not		-->$("div:not(.c1)") 没有c1样式的div
+				9. :has		-->$("div:has(.c1)") 有c1样式的div
+			2.属性选择器
+				1. $("[title]")
+				2. $("[type='text']")
+				3. $("[type!='text']")
+			3.表单选择器
+				1. $(":checkbox") --> $("input[type='checkbox']")
+				2. $(":text")
+				...
+			
+			4.表单对象
+				1.$(":disabled")  --> 找到不可用的标签
+				...
+			
+			5.筛选器方法
+				1.$("div").first()
+				...
+				
+			6.常用方法
+				1. .next()        	-->找到挨着我的下一个同级标签
+				2. .nextAll()		-->下边同级的所有标签
+				3. .nextUntil()		-->往下找，直到找到终止的条件位置
+				
+				4. .prev() 			-->找到挨着我的上一个同级标签
+				5. .prevAll()		-->下边同级的所有标签
+				6. .prevUntil()		-->往下找，直到找到终止的条件位置
+				
+				7. .siblings()      -->找到所有的兄弟（前面后面都能找到）
+				8. .children()
+				
+				9. .parent()
+				10. .parents()
+				11. .parentsUntil()
+				12. .find(各种条件都可以写)
+		
+		3.样式操作
+			1.操作class类
+				1. .addClass()
+				2. .removeClass()
+				3. .hasClass()
+				4. .toggleClass()       切换CSS类名，如果有就移除，如果没有就添加
+			
+			2.直接修改样式
+				1.原生DOM .style.color='green'
+				2.$("div").css("color"),"green")
+				3.x修改多个样式，传入键值对
+					$("div").css({'color':'green','border':'1px solid black'})
+			
+			3.位置相关
+				1. .offset()      	-->相对于屏幕左上角的圆点
+				2. .position()		-->相对于定位的父标签的偏移
+			
+				3. .scrollTop()		-->滚动后距离顶部的距离(返回顶部)
+					$(window).scroll(function(){...} #窗口滚动事件
+				4. .scrollLeft()	-->
+			
+			4.尺寸
+				1.height		-->内容的高和宽
+				2.width			-->
+				
+				3.innerHeight	-->内容区加padding
+				4.innerWidth	-->
+				
+				5.outerHeight	-->内容区加padding+border
+				6.outerWidth	-->
+			
+			5.文本操作
+				1. .html()		-->子标签和文本内容
+					.html('<a href="...">我是a标签</a>')
+				2. .text()		-->所有的文本内容(不显示标签)
+				
+				3. .val()
+					获取用户输入的值
+					$(':text').val()
+					$(":checked").val()  --> 默认返回的都是第一个标签的值(要取多个只能循环)
+			6.属性操作
+				1. .attr()  --> $("a").attr('href') -->获得值
+				   .attr()  --> $("a").attr('href','www.baidu.com') -->设置值
+				
+				2. .prop()  --> 适用于checkobx和radio(返回true或false的属性)
+				
+				
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		

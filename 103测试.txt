@@ -1,0 +1,73 @@
+create table myset(
+			id int not null auto_increment primary key,
+			size enum('x-small','small','medium'),
+			col set('a','b','c','d'),
+			name char(10)
+			)engine=innodb default charset=utf8;
+
+insert into myset(name,size,col) values('xiaoli','medium','a,b,c')
+	#enum只能插入列出的字符串
+	#set:可以插入列出的任意组合
+	
+	
+外键：
+	create table department(
+		id int auto_increment primary key,
+		title char(15)
+	)engine=innodb default charset=utf8;
+	
+	
+	create table userinfo(
+		uid bigint auto_increment primary key,
+		name varchar(4),
+		department_id int,
+		constraint fk_user_depar foreign key (department_id) references department(id)
+	)engine=innodb default charset=utf8;
+	
+	
+	
+	
+创建5个表：	
+	create table class(
+		cid int auto_increment primary key,
+		caption char(15)
+	)engine=innodb default charset=utf8;
+	
+	create table student(
+		sid int auto_increment primary key,
+		sname varchar(10),
+		gender char(10),
+		class_id int,
+		constraint fk_student_class foreign key (class_id) references class(cid)
+	)engine=innodb default charset=utf8;
+	
+	create table teacher(
+		tid int auto_increment primary key,
+		tname char(15)
+	)engine=innodb default charset=utf8;
+	
+	create table course(
+		cid int auto_increment primary key,
+		cname varchar(32),
+		teacher_id int,
+		constraint fk_course_teacher foreign key (teacher_id) references teacher(tid)
+	)engine=innodb default charset=utf8;
+	
+	create table score(
+		sid int auto_increment primary key,
+		student_id int,
+		corse_id int,
+		number int,
+		constraint fk_stu_stu foreign key (student_id) references student(sid),
+		constraint fk_score_corse foreign key (corse_id) references course(cid)
+	)engine=innodb default charset=utf8;
+	
+	
+	
+	
+连接上面5个表：	
+select * from score
+left join student on score.student_id=student.sid
+left join course on score.corse_id=course.cid
+left join teacher on course.teacher_id=teacher.tid
+left join class on student.class_id=class.cid;

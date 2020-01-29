@@ -1,0 +1,252 @@
+#操作文件夹(数据库）
+	create database db2 default charset utf8;
+		#创建文件夹，编码为utf8
+	show databases;
+	drop database db2;
+		#删除文件夹
+	
+#操作文件(表)
+	create table t5(id int auto_increment primary key,name char(10))engine=innodb default charset=utf8;
+
+	create table t3(
+		列名 类型 null,#可以为空，默认设置为不能为空 
+		列名 类型 not null auto_increment primary key,	
+		id int not null auto_increment primary key,
+		name char(10)
+		)engine=innodb default charset=utf8;
+			   #innodb 支持事物，原子性操作
+		
+		#数据类型：
+			数字：
+				tinyint     #范围更小   无符号：0--255
+				int unsigned #表示为无符号的   0--4294967295
+				int signed   #表示为有符号的   -2147483648---2147483647
+				bigint       #范围更大 无符号：0--18446744073709551615
+				浮点型：
+					float：数据不准，位数较小
+					double：数据不准，位数是上一个的一倍
+					decimal(10,5):非常准确，存小数推荐使用，内部原理是存成字符串，但是查看的时候还是数字浮点型
+						#10表示一共存10位，5表示小数点后5位
+					
+					
+			字符串：
+				char(10)：输入的字符没有占满会填充空（长度一定，但速度快）长度限制最高为255
+				varchar(10):输入几个字符就占几个字符（长度不一定，但节省空间）长度限制最高为255
+					#ps:把长度一定的列往前放，把长度不一定的列往后放
+					
+				text：长度限制最高为65535(2**16-1)个字符
+				mediumtext:         16777215(2**24-1)个字符
+				longtext:         4294967295 or 4GB(2**32-1)个字符
+					
+				上传(文件):
+					文件存硬盘，db存路径
+            时间类型：
+				datetime:年月日，时分秒
+				
+			枚举：
+				size enum('x-small','small','medium')
+					#只能插入列出的其中一个字符串
+			集合：
+				col set('a','b','c')
+					#可以插入列出的任意组合
+				
+		#auto_increment		表示：自增  (一个表里只能有一个自增列
+		#primary key		表示: 约束(不能重复且不能为空);加速查找
+	#创建表：
+		create table t3(
+			id int not null auto_increment primary key,
+			name char(10)
+			)engine=innodb default charset=utf8;
+	#清空表：
+		delete from t1;   #之后重新插入数据自增会从最后删除的自增数+1开始
+		truncate table t1;#之后重新插入数据自增会从1开始(比上一个速度更快)
+	#删除表：
+		drop table t1;
+		
+#操作文件内容：
+	#插入数据：
+		insert into t1(id,name) values(1,'alex');
+	#删除数据：
+		delete from t1 where id<6;
+			#删除id小于6的，where后面接条件
+	#修改数据：
+		updata t1 set age=18;
+			#把age都修改为18
+		updata t1 set age=18 where age=17;
+			#将age=17的都修改为18
+	#查看数据：
+		select * from t1;
+		
+	#对于自增：
+		show create table 表 \G; \G表示竖着看
+			#显示创建这个表时的信息
+				#AUTO_INCREMENT=20   #表示创建下一行数据的自增从20开始
+		alter table 表 AUTO_INCREMENT=5;
+			#表示设置自增从5开始
+		
+		MySQL:自增步长:
+			基于会话级别：(连接一次MySQL就建立一次会话，会话和会话之间没有关系)
+				show session variables like 'auto_inc%';  #查看会话级别变量	*****
+				set  session auto_increment_increment=2;  #设置会话步长为2	*****
+				set  session auto_increment_offset=2;  	  #设置起始值为2
+			基于全局级别：(每次登陆的初始值)
+				show global variables like 'auto_inc%';  #查看全局变量
+				set  global auto_increment_increment=2;  #设置全局步长为2
+				
+		sqlserver:自增步长：
+			基于基础表级别：
+				create table t3(
+				id int not null auto_increment primary key,
+				name char(10)
+			)engine=innodb AUTO_INCREMENT,步长=20 default charset=utf8;
+				#表里有这个基础属性
+			
+
+外键+(#唯一)：
+	create table department(
+		id int auto_increment primary key,
+		title char(15);
+		#num int;
+		#xx int;
+		#unique uq1 (num,xx) 
+		  #创建num和xx的联合唯一索引
+	)engine=innodb default charset=utf8;
+			#唯一：约束不能重复(可以为空），加速查找
+			ps:主键不能重复(不能为空)，加速查找
+			
+	create table userinfo(
+		uid bigint auto_increment primary key,
+		name varchar(4),
+		department_id int,
+		constraint fk_user_depar foreign key (department_id) references department(id)
+				   #自定义名称                 #自己的列                #文件名,(文件的列)             
+	)engine=innodb default charset=utf8;
+
+主键：一个表只能有1个主键，但可以由多列组成（主键的作用：约束(不能重复且不能为空);加速查找）
+	create table tt3(
+		id int not null auto_increment ,
+		id1 int,
+		name char(10),
+		primary key (id,id1)
+		)engine=innodb default charset=utf8;
+		
+	constraint fk_user_depar foreign key (xx,yy) references tt3(id,id1)
+			   #自定义名称               #自己的两个列      #tt3,(tt3的id列和id1列)
+		#把主键设置成两个列 外键就可以关联两个列
+		
+		
+SQL语句数据行操作补充：
+	增：
+		insert into tb1(name,age) values('alex',12);
+		insert into tb1(name,age) values('alex',12),('root',18);
+		insert into tb1(name,age) select name,age from tb2;		
+	删:
+		delete from tb1;
+		delete from tb1 where id>2 amd name='alex';	
+	改:
+		update tb1 set name='alex',age=12 where id <12 and name='xx';
+	查:
+		多：
+			select * from tb1;
+			select id,name from tb1 where id>10 or name='xiaoli'
+			
+			select id,name from tb1 where id in (1,5,12);
+			select id,name from tb1 where in(select id from 表)；#括号里只能写一列
+			select id,name from tb1 where id not in (1,5,12);
+			
+			select id,name from tb1 where id between 5 and 12;#查看5到12之间的数据
+			
+			通配符：
+				select * from tb1 where name like 'a%';
+					#'a%':以a开头的任意字符
+					#'%a':以a结尾的任意字符
+					#'%a%':有a 就行
+					#'a_':匹配以a开头的两个字符 
+			分页：
+				select * from tb1 limit 10;#查看前10条数据			
+				select * from tb1 limit 0,10;#查看第0条后的10条数据
+				select * from tb1 limit 10,10;#查看第10条后的10条数据
+				select * from tb1 limit 10 offset 20;#查看第20条后的10条数据(和上面一样，但值是反的)
+		
+			
+			排序：
+				select * from tb1 order by id desc;#根据id从大到小排序
+				select * from tb1 order by id asc;#根据id从小到大排序
+				select * from tb1 order by age desc,id desc;
+					#先按age从大到小排，在按id从大到小排
+				
+				select * from tb1 order by id desc limit 10;#取后10条数据
+			分组：
+				select cont(id)  from 表;  #显示总信息个数
+				select cont(id),max(id),department_id from userinfo group by department_id；
+									#把part_id这一列所有相同的合并成1条
+									#分组之后不能用*
+				#聚合函数：
+					#count(id)计数
+					#max(id)显示最大的
+					#min        最小的
+					#sum        求和
+					#avg        平均值
+					
+					#如果对于聚合函数结果进行二次筛选时，必须使用having*****
+						select cont(id),department_id from userinfo group by department_id having count(id)>1;
+			连表操作：
+			
+				select * from userinfo,department where userinfo.department_id=department.id;
+				
+				select * from userinfo left join department on userinfo.department_id=department.id;
+					#left join 左边的全部显示  #和上面一样
+				select * from userinfo innder join department on userinfo.department_id=department.id;	
+					#将出现null的行隐藏掉
+				连接下面5个表：	
+					select * from score
+					left join student on score.student_id=student.sid
+					left join course on score.corse_id=course.cid
+					left join teacher on course.teacher_id=teacher.tid
+					left join class on student.class_id=class.cid;
+					#推荐这样写*****
+
+
+
+
+转储SQL文件(备份):
+	备份：数据表结构+数据
+		mysqldump -u root 数据库 > 数据库重命名.sql -p
+		mysqldump -u root db1 > db1.sql -p
+	备份：数据表结构(-d)
+		mysqldump -u root -d db1 > db1.sql -p
+
+	导入：需先创建一个数据库(符号为<)
+		create database db5;
+			mysqldump -u root -d db5 < db1.sql -p
+			
+补充：			
+	-- （注释）
+	临时表：
+		SELECT sid from (select * from score where number>=60) as B;
+
+	对于聚合函数需要有一个别名才能显示：
+		select b.student_id,student.sname,b.aaa from 
+		(select student_id,avg(number) as aaa from score  group by student_id having avg(number)>50) as b
+		left join  student on student.sid=b.student_id;
+		
+	#select distinct stu_id from;
+		#distinct 也可以去重，但是效率不高
+	score
+	pymysql模块：
+		pip install pymysql -i  https://pypi.douban.com/simple
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
